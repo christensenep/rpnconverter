@@ -99,13 +99,18 @@ function postfixToInfix(postfixString) {
       operandStack.push(currentCharacter);
     }
     else if (isOperator(currentCharacter)) {
-      let composedOperand = currentCharacter + operandStack.pop();
-      composedOperand = operandStack.pop() + composedOperand;
+      let composedOperand = currentCharacter + operandStack.pop() + ')';
+      composedOperand = '(' + operandStack.pop() + composedOperand;
       operandStack.push(composedOperand);
     }
   }
 
-  return operandStack.pop();
+  let infixString = operandStack.pop();
+  if (infixString.charAt(0) === '(') {
+    infixString = infixString.slice(1,-1);
+  }
+
+  return infixString
 };
 
 module.exports = {

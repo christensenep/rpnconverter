@@ -113,4 +113,8 @@ describe('Postfix -> Infix converter', function() {
     let postfixString = 'ab+';
     expect(postfixToInfix(postfixString)).to.equal('a+b');
   });
+  it('should handle a chain of operators', function() {
+    let postfixString = 'abc++';
+    expect(postfixToInfix(postfixString)).to.equal('a+(b+c)');
+  });
 });
