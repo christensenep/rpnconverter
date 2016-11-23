@@ -6,8 +6,12 @@ describe('Infix -> Postfix converter', function() {
     let infixString = 'a';
     expect(infixToPostfix(infixString)).to.equal('a');
   });
-  it('should convert "a+b" to "ab+"', function() {
+  it('should handle a single operator', function() {
     let infixString = 'a+b';
     expect(infixToPostfix(infixString)).to.equal('ab+');
+  });
+  it('should handle a chain of operators of equal precedence', function() {
+    let infixString = 'a+b+c+d';
+    expect(infixToPostfix(infixString)).to.equal('abcd+++');
   });
 });
