@@ -96,4 +96,9 @@ describe('Infix -> Postfix error handling', function() {
     let func = infixToPostfix.bind(this, infixString);
     expect(func).to.throw(Error, "Opening parentheses cannot follow an operand");
   });
+  it('should error on operand following closing parenthesis', function() {
+    let infixString = 'a+(a+d)e+g';
+    let func = infixToPostfix.bind(this, infixString);
+    expect(func).to.throw(Error, "Operand 'e' is in an invalid position");
+  });
 });
