@@ -82,18 +82,18 @@ describe('Infix -> Postfix error handling', function() {
     expect(func).to.throw(Error, "Operator '-' is in an invalid position");
   });
   it('should error on operator at start of parenthetical expression', function() {
-    let infixString = 'e+f*(-a+c+d)';
+    let infixString = 'e+f*(/a+c+d)';
     let func = infixToPostfix.bind(this, infixString);
-    expect(func).to.throw(Error, "Operator '-' is in an invalid position");
+    expect(func).to.throw(Error, "Operator '/' is in an invalid position");
   });
   it('should error on operator at end of parenthetical expression', function() {
     let infixString = '(a+c+d-)+g';
     let func = infixToPostfix.bind(this, infixString);
     expect(func).to.throw(Error, "Operator '-' is in an invalid position");
   });
-  it('should error on operand preceding parenthesis', function() {
-    let infixString = '(a+c+d-)+g';
+  it('should error on operand preceding opening parenthesis', function() {
+    let infixString = 'a+c(a+d)+g';
     let func = infixToPostfix.bind(this, infixString);
-    expect(func).to.throw(Error, "Operator '-' is in an invalid position");
+    expect(func).to.throw(Error, "Opening parentheses cannot follow an operand");
   });
 });
