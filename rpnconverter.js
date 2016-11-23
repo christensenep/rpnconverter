@@ -54,6 +54,10 @@ function infixToPostfix(infixString) {
       currentIndex++;
     }
     else if (currentCharacter === '(') {
+      if (currentCharacterShouldBeOperator) {
+        throw new Error("Opening parentheses cannot follow an operand");
+      }
+
       let substringStart = currentIndex + 1;
       let parenthesizedSubstring = infixString.slice(substringStart);
 
