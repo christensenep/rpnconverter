@@ -18,4 +18,8 @@ describe('Infix -> Postfix converter', function() {
     let infixString = 'a+b-c*d/e^f';
     expect(infixToPostfix(infixString)).to.equal('abcdef^/*-+');
   });
+  it('should recognize operator precedence', function() {
+    let infixString = 'a-b+c^d/e*f';
+    expect(infixToPostfix(infixString)).to.equal('ab-cd^e/f*+');
+  });
 });
