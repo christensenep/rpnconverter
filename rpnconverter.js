@@ -13,19 +13,28 @@ function shouldGroupLeft(currentOperator, pendingOperators) {
     return false;
   }
 
-  let previousOperator = pendingOperators[pendingOperators.length-1];
+  let previousOperator = pendingOperators[pendingOperators.length - 1];
 
   if (getPriority(previousOperator) >= getPriority(currentOperator)) {
     return true;
   }
 };
 
+function closingParenthesisIndex(string, openingParenthesisIndex) {
+  let currentIndex = openingParenthesisIndex + 1;
+  while (string[currentIndex] != ')') {
+    currentIndex++;
+  }
+
+  return currentIndex;
+}
+
 function infixToPostfix(infixString) {
   let pendingOperators = [];
   let postfixString = '';
 
-  for (let i = 0; i < infixString.length; ++i) {
-    let char = infixString.charAt(i);
+  for (let currentIndex = 0; currentIndex < infixString.length; ++currentIndex) {
+    let char = infixString.charAt(currentIndex);
 
     if (char === ')') {
       break;
@@ -35,18 +44,15 @@ function infixToPostfix(infixString) {
       while (shouldGroupLeft(char, pendingOperators)) {
         postfixString += pendingOperators.pop();
       }
-      
+
       pendingOperators.push(char);
     }
     else if (char === '(') {
-      let substringStart = i+1;
-      let substringEnd = substringStart+1;
-      while (infixString[substringEnd] != ')') {
-        substringEnd++;
-      }
+      let substringStart = currentIndex + 1;
+      let substringEnd = closingParenthesisIndex(infixString, currentIndex);
 
       let infixSubString = infixString.slice(substringStart, substringEnd);
-      i = substringEnd;
+      currentIndex = substringEnd;
       postfixString += infixToPostfix(infixSubString);
     }
     else {
