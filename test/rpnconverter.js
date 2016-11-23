@@ -121,4 +121,8 @@ describe('Postfix -> Infix converter', function() {
     let postfixString = 'abc/*de^f+-';
     expect(postfixToInfix(postfixString)).to.equal('(a*(b/c))-((d^e)+f)');
   });
+  it('should handle provided example', function() {
+    let postfixString = 'ag+ba-c+cedf^*+^*';
+    expect(postfixToInfix(postfixString)).to.equal('(a+g)*(((b-a)+c)^(c+(e*(d^f))))');
+  });
 });
