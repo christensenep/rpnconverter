@@ -1,6 +1,13 @@
+const INFIX_ERROR_MESSAGE = 'Invalid infix expression';
+
 function isOperator(char) {
   let operatorRegex = /[-+/*^]/;
   return char.match(operatorRegex) !== null;
+};
+
+function isOperand(char) {
+  let operandRegex = /[a-z]/;
+  return char.match(operandRegex) !== null;
 };
 
 function getPriority(operator) {
@@ -35,6 +42,10 @@ function infixToPostfix(infixString) {
       pendingOperators.push(currentCharacter);
       currentIndex++;
     }
+    else if (isOperand(currentCharacter)) {
+      postfixString += currentCharacter;
+      currentIndex++;
+    }
     else if (currentCharacter === '(') {
       let substringStart = currentIndex + 1;
       let parenthesizedSubstring = infixString.slice(substringStart);
@@ -44,8 +55,7 @@ function infixToPostfix(infixString) {
       currentIndex += parentheticalResult.charactersParsed + 2;
     }
     else {
-      postfixString += currentCharacter;
-      currentIndex++;
+      throw new Error(INFIX_ERROR_MESSAGE);
     }
 
     currentCharacter = infixString.charAt(currentIndex);
@@ -62,6 +72,8 @@ function infixToPostfix(infixString) {
 };
 
 module.exports = {
+  INFIX_ERROR_MESSAGE: INFIX_ERROR_MESSAGE,
+
   infixToPostfix: function (infixString) {
     return infixToPostfix(infixString).postfixString;
   }

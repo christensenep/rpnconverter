@@ -1,4 +1,6 @@
-const infixToPostfix = require('../rpnconverter').infixToPostfix;
+const rpnconverter = require('../rpnconverter');
+const infixToPostfix = rpnconverter.infixToPostfix;
+
 const expect = require('chai').expect;
 
 describe('Infix -> Postfix converter', function() {
@@ -40,5 +42,13 @@ describe('Infix -> Postfix converter', function() {
     expect(infixToPostfix('l/m^n*o-p')).to.equal('lmn^/o*p-');
     expect(infixToPostfix('((l/(m^n))*o)-p')).to.equal('lmn^/o*p-');
     expect(infixToPostfix('((v/w)^x)*(y-z)')).to.equal('vw/x^yz-*');
+  });
+});
+
+describe('Infix -> Postfix error handling', function() {
+  it('should error on an invalid character', function() {
+    let infixString = 'A';
+    let func = infixToPostfix.bind(this, infixString);
+    expect(func).to.throw(Error, rpnconverter.INFIX_ERROR_MESSAGE);
   });
 });
