@@ -1,0 +1,16 @@
+{
+  "name": "rpnconverter",
+  "version": "1.0.0",
+  "description": "A library to convert between infix and postfix expressions",
+  "main": "rpnconverter.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "repository": "https://github.com/christensenep/rpnconverter.git",
+  "author": "Erik Christensen",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2"
+  }
+}
