@@ -24,13 +24,30 @@ function infixToPostfix(infixString) {
   let pendingOperators = [];
   let postfixString = '';
 
-  for (let char of infixString) {
+  for (let i = 0; i < infixString.length; ++i) {
+    let char = infixString.charAt(i);
+
+    if (char === ')') {
+      break;
+    }
+
     if (isOperator(char)) {
       while (shouldGroupLeft(char, pendingOperators)) {
         postfixString += pendingOperators.pop();
       }
       
       pendingOperators.push(char);
+    }
+    else if (char === '(') {
+      let substringStart = i+1;
+      let substringEnd = substringStart+1;
+      while (infixString[substringEnd] != ')') {
+        substringEnd++;
+      }
+
+      let infixSubString = infixString.slice(substringStart, substringEnd);
+      i = substringEnd;
+      postfixString += infixToPostfix(infixSubString);
     }
     else {
       postfixString += char;
