@@ -51,9 +51,14 @@ describe('Infix -> Postfix error handling', function() {
     let func = infixToPostfix.bind(this, infixString);
     expect(func).to.throw(Error, "Invalid character 'A'");
   });
-  it('should error with appropriate index on mismatched closing parenthesis', function() {
+  it('should error on mismatched closing parenthesis', function() {
     let infixString = 'a+b)-c';
     let func = infixToPostfix.bind(this, infixString);
     expect(func).to.throw(Error, "Mismatched closing parenthesis");
+  });
+  it('should error on two adjacent operators', function() {
+    let infixString = 'a+b+-c';
+    let func = infixToPostfix.bind(this, infixString);
+    expect(func).to.throw(Error, "Operator '-' is in an invalid position");
   });
 });
