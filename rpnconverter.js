@@ -105,6 +105,10 @@ function postfixToInfix(postfixString) {
     }
   }
 
+  if (operandStack.length > 1) {
+    throw new Error("Not enough operators to consume all operands in postfix string");
+  }
+
   let infixString = operandStack.pop();
   if (infixString.charAt(0) === '(') {
     infixString = infixString.slice(1,-1);

@@ -126,3 +126,11 @@ describe('Postfix -> Infix converter', function() {
     expect(postfixToInfix(postfixString)).to.equal('(a+g)*(((b-a)+c)^(c+(e*(d^f))))');
   });
 });
+
+describe('Postfix -> Infix error handling', function() {
+  it('should error on excess operands', function() {
+    let postfixString = 'ab-cd*';
+    let func = postfixToInfix.bind(this, postfixString);
+    expect(func).to.throw(Error, "Not enough operators to consume all operands in postfix string");
+  });
+});
