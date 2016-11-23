@@ -5,6 +5,10 @@ const postfixToInfix = rpnconverter.postfixToInfix;
 const expect = require('chai').expect;
 
 describe('Infix -> Postfix converter', function() {
+  it('should convert empty string to empty string', function() {
+    let infixString = '';
+    expect(infixToPostfix(infixString)).to.equal('');
+  });
   it('should convert a single operand', function() {
     let infixString = 'a';
     expect(infixToPostfix(infixString)).to.equal('a');
