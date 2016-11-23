@@ -34,4 +34,11 @@ describe('Infix -> Postfix converter', function() {
     let infixString = 'a-((b+c)^(d/e))*f';
     expect(infixToPostfix(infixString)).to.equal('abc+de/^f*-');
   });
+  it('should convert provided examples properly', function() {
+    expect(infixToPostfix('a+b-c')).to.equal('abc-+');
+    expect(infixToPostfix('(a+b)-c')).to.equal('ab+c-');
+    expect(infixToPostfix('l/m^n*o-p')).to.equal('lmn^/o*p-');
+    expect(infixToPostfix('((l/(m^n))*o)-p')).to.equal('lmn^/o*p-');
+    expect(infixToPostfix('((v/w)^x)*(y-z)')).to.equal('vw/x^yz-*');
+  });
 });
