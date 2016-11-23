@@ -1,5 +1,3 @@
-const INFIX_ERROR_MESSAGE = 'Invalid infix expression';
-
 function isOperator(char) {
   let operatorRegex = /[-+/*^]/;
   return char.match(operatorRegex) !== null;
@@ -55,7 +53,7 @@ function infixToPostfix(infixString) {
       currentIndex += parentheticalResult.charactersParsed + 2;
     }
     else {
-      throw new Error(INFIX_ERROR_MESSAGE);
+      throw new Error("Invalid character '" + currentCharacter + "' at index " + currentIndex);
     }
 
     currentCharacter = infixString.charAt(currentIndex);
@@ -72,8 +70,6 @@ function infixToPostfix(infixString) {
 };
 
 module.exports = {
-  INFIX_ERROR_MESSAGE: INFIX_ERROR_MESSAGE,
-
   infixToPostfix: function (infixString) {
     return infixToPostfix(infixString).postfixString;
   }

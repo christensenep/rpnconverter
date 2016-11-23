@@ -49,6 +49,6 @@ describe('Infix -> Postfix error handling', function() {
   it('should error on an invalid character', function() {
     let infixString = 'A';
     let func = infixToPostfix.bind(this, infixString);
-    expect(func).to.throw(Error, rpnconverter.INFIX_ERROR_MESSAGE);
+    expect(func).to.throw(Error, "Invalid character 'A' at index 0");
   });
 });
