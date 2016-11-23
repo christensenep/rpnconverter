@@ -71,6 +71,10 @@ function infixToPostfix(infixString) {
 
 module.exports = {
   infixToPostfix: function (infixString) {
+    let parseResult = infixToPostfix(infixString);
+    if (parseResult.charactersParsed !== infixString.length) {
+      throw new Error("Mismatched closing parenthesis at index " + parseResult.charactersParsed);
+    };
     return infixToPostfix(infixString).postfixString;
   }
 };
