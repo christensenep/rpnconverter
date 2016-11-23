@@ -92,7 +92,20 @@ function infixToPostfix(infixString) {
 };
 
 function postfixToInfix(postfixString) {
-  return postfixString;
+  let operandStack = [];
+
+  for (let currentCharacter of postfixString) {
+    if (isOperand(currentCharacter)) {
+      operandStack.push(currentCharacter);
+    }
+    else if (isOperator(currentCharacter)) {
+      let composedOperand = currentCharacter + operandStack.pop();
+      composedOperand = operandStack.pop() + composedOperand;
+      operandStack.push(composedOperand);
+    }
+  }
+
+  return operandStack.pop();
 };
 
 module.exports = {
