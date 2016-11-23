@@ -133,4 +133,9 @@ describe('Postfix -> Infix error handling', function() {
     let func = postfixToInfix.bind(this, postfixString);
     expect(func).to.throw(Error, "Not enough operators to consume all operands in postfix string");
   });
+  it('should error on excess operators', function() {
+    let postfixString = 'ab-+cd*';
+    let func = postfixToInfix.bind(this, postfixString);
+    expect(func).to.throw(Error, "Operator '+' does not have two operands to operate on");
+  });
 });
