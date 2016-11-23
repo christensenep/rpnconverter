@@ -60,6 +60,9 @@ function infixToPostfix(infixString) {
       parentheticalResult = infixToPostfix(parenthesizedSubstring);
       postfixString += parentheticalResult.postfixString;
       currentIndex += parentheticalResult.charactersParsed + 2;
+      if (currentIndex > infixString.length) {
+        throw new Error("Mismatched open parenthesis");
+      }
     }
     else {
       throw new Error("Invalid character '" + currentCharacter + "'");

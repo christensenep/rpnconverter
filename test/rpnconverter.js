@@ -56,6 +56,11 @@ describe('Infix -> Postfix error handling', function() {
     let func = infixToPostfix.bind(this, infixString);
     expect(func).to.throw(Error, "Mismatched closing parenthesis");
   });
+  it('should error on mismatched opening parenthesis', function() {
+    let infixString = 'a+(b-c';
+    let func = infixToPostfix.bind(this, infixString);
+    expect(func).to.throw(Error, "Mismatched open parenthesis");
+  });
   it('should error on two adjacent operators', function() {
     let infixString = 'a+b+-c';
     let func = infixToPostfix.bind(this, infixString);
