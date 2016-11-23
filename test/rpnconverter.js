@@ -30,4 +30,8 @@ describe('Infix -> Postfix converter', function() {
     let infixString = 'a-(b+c^d)/(e*f)';
     expect(infixToPostfix(infixString)).to.equal('abcd^+ef*/-');
   });
+  it('should recognize nested parenthetical groupings', function() {
+    let infixString = 'a-((b+c)^(d/e))*f';
+    expect(infixToPostfix(infixString)).to.equal('abc+de/^f*-');
+  });
 });

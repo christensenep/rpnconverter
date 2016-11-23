@@ -20,53 +20,49 @@ function shouldGroupLeft(currentOperator, pendingOperators) {
   }
 };
 
-function closingParenthesisIndex(string, openingParenthesisIndex) {
-  let currentIndex = openingParenthesisIndex + 1;
-  while (string[currentIndex] != ')') {
-    currentIndex++;
-  }
-
-  return currentIndex;
-}
-
 function infixToPostfix(infixString) {
   let pendingOperators = [];
   let postfixString = '';
+  let currentIndex = 0;
+  let currentCharacter = infixString.charAt(currentIndex);
 
-  for (let currentIndex = 0; currentIndex < infixString.length; ++currentIndex) {
-    let char = infixString.charAt(currentIndex);
-
-    if (char === ')') {
-      break;
-    }
-
-    if (isOperator(char)) {
-      while (shouldGroupLeft(char, pendingOperators)) {
+  while (currentIndex < infixString.length && currentCharacter != ')') {
+    if (isOperator(currentCharacter)) {
+      while (shouldGroupLeft(currentCharacter, pendingOperators)) {
         postfixString += pendingOperators.pop();
       }
 
-      pendingOperators.push(char);
+      pendingOperators.push(currentCharacter);
+      currentIndex++;
     }
-    else if (char === '(') {
+    else if (currentCharacter === '(') {
       let substringStart = currentIndex + 1;
-      let substringEnd = closingParenthesisIndex(infixString, currentIndex);
+      let parenthesizedSubstring = infixString.slice(substringStart);
 
-      let infixSubString = infixString.slice(substringStart, substringEnd);
-      currentIndex = substringEnd;
-      postfixString += infixToPostfix(infixSubString);
+      parentheticalResult = infixToPostfix(parenthesizedSubstring);
+      postfixString += parentheticalResult.postfixString;
+      currentIndex += parentheticalResult.charactersParsed + 2;
     }
     else {
-      postfixString += char;
+      postfixString += currentCharacter;
+      currentIndex++;
     }
+
+    currentCharacter = infixString.charAt(currentIndex);
   };
 
   while (pendingOperators.length) {
     postfixString += pendingOperators.pop();
   }
 
-  return postfixString;
+  return { 
+    postfixString: postfixString,
+    charactersParsed: currentIndex
+  };
 };
 
 module.exports = {
-  infixToPostfix: infixToPostfix
+  infixToPostfix: function (infixString) {
+    return infixToPostfix(infixString).postfixString;
+  }
 };
