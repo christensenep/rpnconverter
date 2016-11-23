@@ -1,9 +1,11 @@
+let operatorRegex = /[-+/*^]/;
+
 function infixToPostfix(infixString) {
   let operators = [];
   let postfixString = '';
 
   for (let char of infixString) {
-    if (char === '+') {
+    if (char.match(operatorRegex)) {
       operators.push(char);
     }
     else {
