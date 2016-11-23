@@ -138,4 +138,9 @@ describe('Postfix -> Infix error handling', function() {
     let func = postfixToInfix.bind(this, postfixString);
     expect(func).to.throw(Error, "Operator '+' does not have two operands to operate on");
   });
+  it('should error on operator at beginning of expressions', function() {
+    let postfixString = '*ab-cd*';
+    let func = postfixToInfix.bind(this, postfixString);
+    expect(func).to.throw(Error, "Operator '*' does not have two operands to operate on");
+  });
 });
