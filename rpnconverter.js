@@ -53,7 +53,7 @@ function infixToPostfix(infixString) {
       currentIndex += parentheticalResult.charactersParsed + 2;
     }
     else {
-      throw new Error("Invalid character '" + currentCharacter + "' at index " + currentIndex);
+      throw new Error("Invalid character '" + currentCharacter + "'");
     }
 
     currentCharacter = infixString.charAt(currentIndex);
@@ -73,7 +73,7 @@ module.exports = {
   infixToPostfix: function (infixString) {
     let parseResult = infixToPostfix(infixString);
     if (parseResult.charactersParsed !== infixString.length) {
-      throw new Error("Mismatched closing parenthesis at index " + parseResult.charactersParsed);
+      throw new Error("Mismatched closing parenthesis");
     };
     return infixToPostfix(infixString).postfixString;
   }

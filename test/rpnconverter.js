@@ -49,16 +49,11 @@ describe('Infix -> Postfix error handling', function() {
   it('should error on an invalid character', function() {
     let infixString = 'A';
     let func = infixToPostfix.bind(this, infixString);
-    expect(func).to.throw(Error, "Invalid character 'A' at index 0");
-  });
-  it('should give error with proper index of invalid character', function() {
-    let infixString = 'a+A';
-    let func = infixToPostfix.bind(this, infixString);
-    expect(func).to.throw(Error, "Invalid character 'A' at index 2");
+    expect(func).to.throw(Error, "Invalid character 'A'");
   });
   it('should error with appropriate index on mismatched closing parenthesis', function() {
     let infixString = 'a+b)-c';
     let func = infixToPostfix.bind(this, infixString);
-    expect(func).to.throw(Error, "Mismatched closing parenthesis at index 3");
+    expect(func).to.throw(Error, "Mismatched closing parenthesis");
   });
 });
