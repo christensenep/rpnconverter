@@ -1,10 +1,11 @@
 const rpnconverter = require('../rpnconverter');
 const infixToPostfix = rpnconverter.infixToPostfix;
+const postfixToInfix = rpnconverter.postfixToInfix;
 
 const expect = require('chai').expect;
 
 describe('Infix -> Postfix converter', function() {
-  it('should convert "a" to "a"', function() {
+  it('should convert a single operand', function() {
     let infixString = 'a';
     expect(infixToPostfix(infixString)).to.equal('a');
   });
@@ -100,5 +101,12 @@ describe('Infix -> Postfix error handling', function() {
     let infixString = 'a+(a+d)e+g';
     let func = infixToPostfix.bind(this, infixString);
     expect(func).to.throw(Error, "Operand 'e' is in an invalid position");
+  });
+});
+
+describe('Postfix -> Infix converter', function() {
+  it('should convert a single operand', function() {
+    let postfixString = 'a';
+    expect(postfixToInfix(postfixString)).to.equal('a');
   });
 });

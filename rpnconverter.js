@@ -91,6 +91,10 @@ function infixToPostfix(infixString) {
   };
 };
 
+function postfixToInfix(postfixString) {
+  return postfixString;
+};
+
 module.exports = {
   infixToPostfix: function (infixString) {
     let parseResult = infixToPostfix(infixString);
@@ -98,5 +102,7 @@ module.exports = {
       throw new Error("Mismatched closing parenthesis");
     };
     return infixToPostfix(infixString).postfixString;
-  }
+  },
+
+  postfixToInfix: postfixToInfix
 };
