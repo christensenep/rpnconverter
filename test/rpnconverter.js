@@ -12,7 +12,7 @@ describe('Infix -> Postfix converter', function() {
   });
   it('should handle a chain of operators of equal precedence', function() {
     let infixString = 'a+b+c+d';
-    expect(infixToPostfix(infixString)).to.equal('abcd+++');
+    expect(infixToPostfix(infixString)).to.equal('ab+c+d+');
   });
   it('should recognize all valid operators', function() {
     let infixString = 'a+b-c*d/e^f';
