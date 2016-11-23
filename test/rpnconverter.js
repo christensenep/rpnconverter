@@ -109,6 +109,10 @@ describe('Infix -> Postfix error handling', function() {
 });
 
 describe('Postfix -> Infix converter', function() {
+  it('should convert empty string to empty string', function() {
+    let postfixString = '';
+    expect(postfixToInfix(postfixString)).to.equal('');
+  });
   it('should convert a single operand', function() {
     let postfixString = 'a';
     expect(postfixToInfix(postfixString)).to.equal('a');
