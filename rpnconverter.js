@@ -46,6 +46,10 @@ function infixToPostfix(infixString) {
       currentIndex++;
     }
     else if (isOperand(currentCharacter)) {
+      if (currentCharacterShouldBeOperator) {
+        throw new Error("Operand '" + currentCharacter + "' is in an invalid position");
+      }
+
       postfixString += currentCharacter;
       currentIndex++;
     }

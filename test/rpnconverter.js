@@ -61,4 +61,9 @@ describe('Infix -> Postfix error handling', function() {
     let func = infixToPostfix.bind(this, infixString);
     expect(func).to.throw(Error, "Operator '-' is in an invalid position");
   });
+  it('should error on two adjacent operands', function() {
+    let infixString = 'a+bc+d';
+    let func = infixToPostfix.bind(this, infixString);
+    expect(func).to.throw(Error, "Operand 'c' is in an invalid position");
+  });
 });
