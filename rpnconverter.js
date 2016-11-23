@@ -32,11 +32,6 @@ function infixToPostfix(infixString) {
   let currentCharacter = infixString.charAt(currentIndex);
   let currentCharacterShouldBeOperator = false;
 
-  let lastCharacterInInfixString = infixString.charAt(infixString.length-1);
-  if (isOperator(lastCharacterInInfixString)) {
-    throw new Error("Operator '" + lastCharacterInInfixString + "' is in an invalid position");
-  }
-
   while (currentIndex < infixString.length && currentCharacter != ')') {
     if (isOperator(currentCharacter)) {
       if (!currentCharacterShouldBeOperator) {
@@ -73,6 +68,11 @@ function infixToPostfix(infixString) {
     currentCharacter = infixString.charAt(currentIndex);
     currentCharacterShouldBeOperator = !currentCharacterShouldBeOperator;
   };
+
+  let lastCharacterParsed = infixString.charAt(currentIndex-1);
+  if (isOperator(lastCharacterParsed)) {
+    throw new Error("Operator '" + lastCharacterParsed + "' is in an invalid position");
+  }
 
   while (pendingOperators.length) {
     postfixString += pendingOperators.pop();
