@@ -102,10 +102,13 @@ function postfixToInfix(postfixString) {
       if (operandStack.length < 2) {
         throw new Error("Operator '" + currentCharacter + "' does not have two operands to operate on");
       }
-      
+
       let composedOperand = currentCharacter + operandStack.pop() + ')';
       composedOperand = '(' + operandStack.pop() + composedOperand;
       operandStack.push(composedOperand);
+    }
+    else {
+      throw new Error("Invalid character '" + currentCharacter + "'");
     }
   }
 

@@ -128,6 +128,11 @@ describe('Postfix -> Infix converter', function() {
 });
 
 describe('Postfix -> Infix error handling', function() {
+  it('should error on invalid character', function() {
+    let postfixString = '(ab-cd*';
+    let func = postfixToInfix.bind(this, postfixString);
+    expect(func).to.throw(Error, "Invalid character '('");
+  });
   it('should error on excess operands', function() {
     let postfixString = 'ab-cd*';
     let func = postfixToInfix.bind(this, postfixString);
