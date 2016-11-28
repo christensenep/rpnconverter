@@ -67,3 +67,5 @@ Our algorithm is simply:
 3. If the current index contains an operator `o`, pop `y` and then `x` off the operand stack, and then push `(x o y)` to the operand stack.
 4. Increment the current index.
 5. If we have reached the end of the postfix string, pop the operand off the top of the operand stack and output it. Otherwise, return to 2.
+
+For cosmetic reasons, we also strip the parentheses surrounding the final output, if they exist. This isn't strictly required, however.
