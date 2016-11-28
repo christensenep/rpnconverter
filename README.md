@@ -46,10 +46,24 @@ convert to `ab+c+d+`. This just means we need to break ties by assuming that the
 Thus, our algorithm is:
 
 1. Set our current index to the start of the infix string
-2. If the current index contains an operand, output it
-3. If the current index contains an operator, and our operator stack is empty, or the current operator has higher precedence than the operator at the top of the stack, put the operator on top of the stack
+2. If the current index contains an operand, output it and increment the current index
+3. If the current index contains an operator, and our operator stack is empty, or the current operator has higher precedence than the operator at the top of the stack, put the operator on top of the stack and increment the current index
 4. Otherwise, pop the operator off the top of the stack and output it, then return to 3
-5. If the current index contains an open parenthesis, perform this algorithm on the contents of the parentheses, output the result, and advance to the end of the parentheses group
-6. If the current index is the end of the string, or a closed parenthesis, pop operators off the top of our operator stack, outputting each in turnuntil the stack is empty.
+5. If the current index contains an open parenthesis, perform this algorithm on the contents of the parentheses, output the result, and advance the current index to the end of the parentheses group
+6. If the current index is the end of the string, or a closed parenthesis, pop operators off the top of our operator stack, outputting each in turn until the stack is empty.
 7. Return the resuting output
 
+Derivation of the Postfix to Infix algorithm used:
+--------------------------------------------------
+
+Fortunately, Postfix notation maps quite easily to familiar data structures: Each operand is pushed onto a stack, and each operator operates on the top
+two entries in the operand stack, creating a new parenthetical expression, itself a new operand, which is then pushed to the operand stack. Unlike
+with Infix notation, there's never a need to "look ahead" in the expression.
+
+Our algorithm is simply:
+
+1. Set our current index to the start of the postfix string
+2. If the current index contains an operand, push it to the operand stack
+3. If the current index contains an operator `o`, pop `y` and then `x` off the operand stack, and then push `(x o y)` to the operand stack.
+4. Increment the current index.
+5. If we have reached the end of the postfix string, pop the operand off the top of the operand stack and output it. Otherwise, return to 2.
