@@ -134,7 +134,7 @@ module.exports = {
     if (parseResult.charactersParsed !== infixString.length) {
       throw new Error("Mismatched closing parenthesis");
     };
-    return infixToPostfix(infixString).postfixString;
+    return parseResult.postfixString;
   },
 
   postfixToInfix: postfixToInfix
