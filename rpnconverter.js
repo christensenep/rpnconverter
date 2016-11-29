@@ -1,11 +1,13 @@
+'use strict';
+
 function infixToPostfix(infixString) {
-  let pendingOperators = [];
+  const pendingOperators = [];
   let postfixString = '';
   let currentIndex = 0;
   let currentCharacter = infixString.charAt(currentIndex);
   let currentCharacterShouldBeOperator = false;
 
-  while (currentIndex < infixString.length && currentCharacter != ')') {
+  while (currentIndex < infixString.length && currentCharacter !== ')') {
     if (isOperator(currentCharacter)) {
       if (!currentCharacterShouldBeOperator) {
         throw new Error("Operator '" + currentCharacter + "' is in an invalid position");
@@ -17,7 +19,7 @@ function infixToPostfix(infixString) {
 
       pendingOperators.push(currentCharacter);
       currentIndex++;
-    }
+    } 
     else if (isOperand(currentCharacter)) {
       if (currentCharacterShouldBeOperator) {
         throw new Error("Operand '" + currentCharacter + "' is in an invalid position");
@@ -31,10 +33,10 @@ function infixToPostfix(infixString) {
         throw new Error("Opening parentheses cannot follow an operand");
       }
 
-      let substringStart = currentIndex + 1;
-      let parenthesizedSubstring = infixString.slice(substringStart);
+      const substringStart = currentIndex + 1;
+      const parenthesizedSubstring = infixString.slice(substringStart);
 
-      parentheticalResult = infixToPostfix(parenthesizedSubstring);
+      const parentheticalResult = infixToPostfix(parenthesizedSubstring);
       postfixString += parentheticalResult.postfixString;
       currentIndex += parentheticalResult.charactersParsed + 2;
       if (currentIndex > infixString.length) {
@@ -49,7 +51,7 @@ function infixToPostfix(infixString) {
     currentCharacterShouldBeOperator = !currentCharacterShouldBeOperator;
   };
 
-  let lastCharacterParsed = infixString.charAt(currentIndex-1);
+  const lastCharacterParsed = infixString.charAt(currentIndex-1);
   if (isOperator(lastCharacterParsed)) {
     throw new Error("Operator '" + lastCharacterParsed + "' is in an invalid position");
   }
@@ -65,9 +67,9 @@ function infixToPostfix(infixString) {
 };
 
 function postfixToInfix(postfixString) {
-  let operandStack = [];
+  const operandStack = [];
 
-  for (let currentCharacter of postfixString) {
+  for (const currentCharacter of postfixString) {
     if (isOperand(currentCharacter)) {
       operandStack.push(currentCharacter);
     }
@@ -98,21 +100,21 @@ function postfixToInfix(postfixString) {
     infixString = infixString.slice(1,-1);
   }
 
-  return infixString
+  return infixString;
 };
 
 function isOperator(char) {
-  let operatorRegex = /[-+/*^]/;
+  const operatorRegex = /[-+/*^]/;
   return char.match(operatorRegex) !== null;
 };
 
 function isOperand(char) {
-  let operandRegex = /[a-z]/;
+  const operandRegex = /[a-z]/;
   return char.match(operandRegex) !== null;
 };
 
 function getPriority(operator) {
-  let operatorPrecedence = '+-*/^';
+  const operatorPrecedence = '+-*/^';
   return operatorPrecedence.indexOf(operator);
 }
 
@@ -121,7 +123,7 @@ function shouldGroupLeft(currentOperator, pendingOperators) {
     return false;
   }
 
-  let previousOperator = pendingOperators[pendingOperators.length - 1];
+  const previousOperator = pendingOperators[pendingOperators.length - 1];
 
   if (getPriority(previousOperator) >= getPriority(currentOperator)) {
     return true;
@@ -130,7 +132,7 @@ function shouldGroupLeft(currentOperator, pendingOperators) {
 
 module.exports = {
   infixToPostfix: function (infixString) {
-    let parseResult = infixToPostfix(infixString);
+    const parseResult = infixToPostfix(infixString);
     if (parseResult.charactersParsed !== infixString.length) {
       throw new Error("Mismatched closing parenthesis");
     };
