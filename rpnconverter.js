@@ -8,53 +8,23 @@ function infixToPostfix(infixString) {
   let currentCharacterShouldBeOperator = false;
 
   while (currentIndex < infixString.length && currentCharacter !== ')') {
+    validateInfixCharacter(currentCharacter, currentCharacterShouldBeOperator);
+
     if (isOperator(currentCharacter)) {
-      if (!currentCharacterShouldBeOperator) {
-        throw new Error("Operator '" + currentCharacter + "' is in an invalid position");
-      }
-
-      while (shouldGroupLeft(currentCharacter, pendingOperators)) {
-        postfixString += pendingOperators.pop();
-      }
-
-      pendingOperators.push(currentCharacter);
-      currentIndex++;
+      consumeOperator();
     } 
     else if (isOperand(currentCharacter)) {
-      if (currentCharacterShouldBeOperator) {
-        throw new Error("Operand '" + currentCharacter + "' is in an invalid position");
-      }
-
-      postfixString += currentCharacter;
-      currentIndex++;
-    }
-    else if (currentCharacter === '(') {
-      if (currentCharacterShouldBeOperator) {
-        throw new Error("Opening parentheses cannot follow an operand");
-      }
-
-      const substringStart = currentIndex + 1;
-      const parenthesizedSubstring = infixString.slice(substringStart);
-
-      const parentheticalResult = infixToPostfix(parenthesizedSubstring);
-      postfixString += parentheticalResult.postfixString;
-      currentIndex += parentheticalResult.charactersParsed + 2;
-      if (currentIndex > infixString.length) {
-        throw new Error("Mismatched open parenthesis");
-      }
+      consumeOperand();
     }
     else {
-      throw new Error("Invalid character '" + currentCharacter + "'");
+      consumeParentheses();
     }
 
     currentCharacter = infixString.charAt(currentIndex);
     currentCharacterShouldBeOperator = !currentCharacterShouldBeOperator;
   };
 
-  const lastCharacterParsed = infixString.charAt(currentIndex-1);
-  if (isOperator(lastCharacterParsed)) {
-    throw new Error("Operator '" + lastCharacterParsed + "' is in an invalid position");
-  }
+  validateFinalInfixCharacter(infixString.charAt(currentIndex-1));
 
   while (pendingOperators.length) {
     postfixString += pendingOperators.pop();
@@ -64,6 +34,32 @@ function infixToPostfix(infixString) {
     postfixString: postfixString,
     charactersParsed: currentIndex
   };
+
+  function consumeOperator() {
+    while (shouldGroupLeft(currentCharacter, pendingOperators)) {
+      postfixString += pendingOperators.pop();
+    }
+
+    pendingOperators.push(currentCharacter);
+    currentIndex++;
+  }
+
+  function consumeOperand() {
+    postfixString += currentCharacter;
+    currentIndex++;
+  }
+
+  function consumeParentheses() {
+    const substringStart = currentIndex + 1;
+    const parenthesizedSubstring = infixString.slice(substringStart);
+
+    const parentheticalResult = infixToPostfix(parenthesizedSubstring);
+    postfixString += parentheticalResult.postfixString;
+    currentIndex += parentheticalResult.charactersParsed + 2;
+    if (currentIndex > infixString.length) {
+      throw new Error("Mismatched open parenthesis");
+    }
+  }
 };
 
 function postfixToInfix(postfixString) {
@@ -130,6 +126,32 @@ function shouldGroupLeft(currentOperator, pendingOperators) {
   }
 };
 
+function validateInfixCharacter(currentCharacter, currentCharacterShouldBeOperator) {
+  if (isOperator(currentCharacter)) {
+    if (!currentCharacterShouldBeOperator) {
+      throw new Error("Operator '" + currentCharacter + "' is in an invalid position");
+    }
+  }
+  else if (isOperand(currentCharacter)) {
+    if (currentCharacterShouldBeOperator) {
+      throw new Error("Operand '" + currentCharacter + "' is in an invalid position");
+    }
+  }
+  else if (currentCharacter === '(') {
+    if (currentCharacterShouldBeOperator) {
+      throw new Error("Opening parentheses cannot follow an operand");
+    }
+  }
+  else {
+    throw new Error("Invalid character '" + currentCharacter + "'");
+  }
+}
+
+function validateFinalInfixCharacter(finalCharacter) {
+  if (isOperator(finalCharacter)) {
+    throw new Error("Operator '" + finalCharacter + "' is in an invalid position");
+  }
+}
 module.exports = {
   infixToPostfix: function (infixString) {
     const parseResult = infixToPostfix(infixString);
